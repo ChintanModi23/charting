@@ -1,0 +1,20 @@
+.profile-picture{padding:4px;display:inline-block;max-width:100%;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+
+.img-responsive { 
+    display: inherit !important;
+    border: 1px solid #cecece;
+    margin: 15px;
+    border-radius: 25px;
+    width: 400px;
+    height: 400px !important;
+}
+
+.modal-img {
+    border: 1px solid #cecece;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.chart-info {
+    margin-left: 15px;
+}
