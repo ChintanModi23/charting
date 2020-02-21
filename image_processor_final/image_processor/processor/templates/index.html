@@ -4,7 +4,7 @@
 
     <title>Chart Filter </title>
     <meta name="description" content="Filter Image Through User Query">
-    <meta name="author" content="Gabriel Aquende">
+    <!--meta name="author" content="Gabriel Aquende"-->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <link href="{{ url_for('static',filename='css/AdminLTE.min.css') }}" rel="stylesheet" type="text/css" />
@@ -135,7 +135,14 @@
                                     <div class="box-footer">
                                         <button id="filter" type="button" class="btn btn-primary">Filter</button>
                                     </div>
+                                    
+                                        
                                 </form>
+                                <!--form action="/export/" method="post">
+                                    <div class="box-footer">
+                                        <button id="export" type="button" class="btn btn-primary" style="float: right;">Export</button>
+                                    </div>
+                                </form-->
                             </div>
                     </div>
                 </div>
@@ -194,7 +201,10 @@
         {
             $('#name').val("");
             $('#email').val("");
-            $("input[name='rating']").val(3);
+            $("input[name='linkert1']").val();
+            $("input[name='linkert2']").val();
+            $("input[name='linkert3']").val();
+            $("input[name='linkert4']").val();
             $('#comment').val("");
             $('#occupation').val("Student");
            data = img_data[index];
@@ -208,7 +218,10 @@
                     data: {
                         name:$('#name').val(),
                         email:$('#email').val(),
-                        rating:$("input[name='rating']:checked").val(),
+                        linkert1:$("input[name='linkert1']:checked").val(),
+                        linkert2:$("input[name='linkert2']:checked").val(),
+                        linkert3:$("input[name='linkert3']:checked").val(),
+                        linkert4:$("input[name='linkert4']:checked").val(),
                         image_key:data[0],
                         feedback:$('#comment').val(),
 			            occupation:$('#occupation').val(),
@@ -261,7 +274,7 @@
                                 </select>
                             </div>
                             <input type="hidden" id="img-id" name="img-id" /> 
-                            <div class="form-group">
+                            <!--div class="form-group">
                                 <label>How much easy the graph is to understand?</label>
                                 <div class="radio">
                                     <label>
@@ -288,6 +301,104 @@
                                         <input type="radio" name="rating" value="5"/> Very Difficult
                                     </label>
                                 </div>
+                            </div-->
+                            <div class="wrap">
+                              <!--h1 class="linkert-header">This is a linkert Scale survey</h1-->
+                              <form action="">
+                                <label class="statement">How easy the graph is to understand?</label>
+                                <ul class='likert'>
+                                  <li>
+                                    <input type="radio" name="linkert1" value="Very Easy">
+                                    <label>Very Easy</label>
+                                  </li>
+                                  <li>
+                                    <input type="radio" name="linkert1" value="Easy">
+                                    <label>Easy</label>
+                                  </li>
+                                  <li>
+                                    <input type="radio" name="linkert1" value="Neutral">
+                                    <label>Neither Easy nor Difficult</label>
+                                  </li>
+                                  <li>
+                                    <input type="radio" name="linkert1" value="Difficult">
+                                    <label>Difficult</label>
+                                  </li>
+                                  <li>
+                                    <input type="radio" name="linkert1" value="Very Difficult">
+                                    <label>Very Difficult</label>
+                                  </li>
+                                </ul>
+                                <label class="statement">Clutterness</label>
+                                <ul class='likert'>
+                                  <li>
+                                    <input type="radio" name="linkert2" value="Very High">
+                                    <label>Very High</label>
+                                  </li>
+                                  <li>
+                                    <input type="radio" name="linkert2" value="High">
+                                    <label>High</label>
+                                  </li>
+                                  <li>
+                                    <input type="radio" name="linkert2" value="Medium">
+                                    <label>Medium</label>
+                                  </li>
+                                  <li>
+                                    <input type="radio" name="linkert2" value="Low">
+                                    <label>Low</label>
+                                  </li>
+                                  <li>
+                                    <input type="radio" name="linkert2" value="Very Low">
+                                    <label>Very Low</label>
+                                  </li>
+                                </ul>
+                                <label class="statement">Complexity</label>
+                                <ul class='likert'>
+                                  <li>
+                                    <input type="radio" name="linkert3" value="Very High">
+                                    <label>Very High</label>
+                                  </li>
+                                  <li>
+                                    <input type="radio" name="linkert3" value="High">
+                                    <label>High</label>
+                                  </li>
+                                  <li>
+                                    <input type="radio" name="linkert3" value="Medium">
+                                    <label>Medium</label>
+                                  </li>
+                                  <li>
+                                    <input type="radio" name="linkert3" value="Low">
+                                    <label>Low</label>
+                                  </li>
+                                  <li>
+                                    <input type="radio" name="linkert3" value="Very Low">
+                                    <label>Very Low</label>
+                                  </li>
+                                </ul>
+                                <label class="statement">Appropriateness</label>
+                                <ul class='likert'>
+                                  <li>
+                                    <input type="radio" name="linkert4" value="Very High">
+                                    <label>Very High</label>
+                                  </li>
+                                  <li>
+                                    <input type="radio" name="linkert4" value="High">
+                                    <label>High</label>
+                                  </li>
+                                  <li>
+                                    <input type="radio" name="linkert4" value="Medium">
+                                    <label>Medium</label>
+                                  </li>
+                                  <li>
+                                    <input type="radio" name="linkert4" value="Low">
+                                    <label>Low</label>
+                                  </li>
+                                  <li>
+                                    <input type="radio" name="linkert4" value="Very Low">
+                                    <label>Very Low</label>
+                                  </li>
+                                </ul>
+                                
+                              </form>
                             </div>
                             <div class="form-group">
                                 <label>Comment</label>

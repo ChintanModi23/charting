@@ -79,7 +79,7 @@ def create_table():
     table_name = "image_index"
     sql_create_index_table = "CREATE TABLE IF NOT EXISTS "+table_name+" (image_key INT PRIMARY KEY, source_pdf TEXT, year INT, chart_type TEXT, secondary_chart_type TEXT, description TEXT, caption TEXT, image_url TEXT, pdf_link TEXT);"
     cursor.execute(sql_create_index_table)
-    sql_create_feedback_table = "CREATE TABLE IF NOT EXISTS feedback (feedback_key SERIAL PRIMARY KEY, name TEXT, email TEXT, rating INT, feedback TEXT, image_key INT, occupation TEXT);"
+    sql_create_feedback_table = "CREATE TABLE IF NOT EXISTS feedback (feedback_key SERIAL PRIMARY KEY, name TEXT, email TEXT, linkert1 TEXT, linkert2 TEXT, linkert3 TEXT, linkert4 TEXT, feedback TEXT, image_key INT, occupation TEXT);"
     cursor.execute(sql_create_feedback_table)
     connection.commit()
     cursor.close()
