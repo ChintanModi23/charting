@@ -4,7 +4,6 @@
 
     <title>Chart Filter </title>
     <meta name="description" content="Filter Image Through User Query">
-    <!--meta name="author" content="Gabriel Aquende"-->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <link href="{{ url_for('static',filename='css/AdminLTE.min.css') }}" rel="stylesheet" type="text/css" />
@@ -29,7 +28,7 @@
                             <div class="box-body">
                                 <form class="cotact-form" id="myform" enctype="multipart/form-data">
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>Chart Type:</label>
                                                 <select id = "chartType" class="form-control">
@@ -39,8 +38,7 @@
                                                     <option value="connectedScatterPlot">Connected Scatter Plot</option>
                                                     <option value="barGraph">Bar Graph</option>
                                                     <option value="areaChart">Area Chart</option>
-                                                    
-<!--                                                     <option value="alluvialDiagram">Alluvial Diagram</option>
+                                                    <option value="alluvialDiagram">Alluvial Diagram</option>
                                                     <option value="bubbleChart">Bubble Chart</option>
                                                     <option value="dotDistributionMap">Dot Distribution Map</option>
                                                     <option value="heatMap">Heat Map</option>
@@ -57,11 +55,11 @@
                                                     <option value="timeSeries">Time Series</option>
                                                     <option value="unknown">Unknown</option>
                                                     <option value="waterfallChart">Waterfall Chart</option>
-                                                    <option value="wedgeStackGraph">Wedge Stack Graph</option> -->
+                                                    <option value="wedgeStackGraph">Wedge Stack Graph</option>
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>Secondary Chart Type:</label>
                                                 <select id = "secondChartType" class="form-control">
@@ -71,8 +69,7 @@
                                                     <option value="connectedScatterPlot">Connected Scatter Plot</option>
                                                     <option value="barGraph">Bar Graph</option>
                                                     <option value="areaChart">Area Chart</option>
-                                                    
-<!--                                                     <option value="alluvialDiagram">Alluvial Diagram</option>
+                                                    <option value="alluvialDiagram">Alluvial Diagram</option>
                                                     <option value="bubbleChart">Bubble Chart</option>
                                                     <option value="dotDistributionMap">Dot Distribution Map</option>
                                                     <option value="heatMap">Heat Map</option>
@@ -89,11 +86,11 @@
                                                     <option value="timeSeries">Time Series</option>
                                                     <option value="unknown">Unknown</option>
                                                     <option value="waterfallChart">Waterfall Chart</option>
-                                                    <option value="wedgeStackGraph">Wedge Stack Graph</option> -->
+                                                    <option value="wedgeStackGraph">Wedge Stack Graph</option>
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>Year:</label>
                                                 <select id="Year" class="form-control">
@@ -106,10 +103,10 @@
                                                 </select>
                                             </div>
                                         </div>
-                                    </div>
+                                    <!--/div-->
                     
-                                    <div class="row">
-                                        <div class="col-md-8">
+                                    <!--div class="row"-->
+                                        <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>PDF Source:</label>
                                                 <select id="PDF" class="form-control">

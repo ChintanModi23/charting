@@ -1,7 +1,7 @@
 # Steps to setup the image_processor
 
 # Git clone the image_processor repo.
-git clone https://github.com/impala97/image_processor.git
+git clone https://github.com/ChintanModi23/charting
 
 # Create a folder where you can keep your all virtual environments for all projects
 mkdir ~/virt
