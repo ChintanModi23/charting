@@ -14,19 +14,16 @@ threaded_postgreSQL_pool = None
 def home():
     if request.method == 'POST':
         data = request.form
-        print("=======home=======",data)
         chart_type = data.get("chartType")
         second_chart_type = data.get("secondChartType")
         pdf = data.get("PDF")
         year = data.get("Year")
-        print("=======home=======",chart_type, second_chart_type, pdf, year)
         filter_images = get_image_filter_data(
             chart_type=chart_type,
             second_chart_type=second_chart_type,
             pdf=pdf,
             year=year
         )
-        print(len(filter_images))
         return json.dumps(filter_images)
         # return render_template('index.html', filter_images=filter_images)
     return render_template('index.html')
@@ -35,7 +32,6 @@ def home():
 def feedback():
     if request.method == 'POST':
         data = request.form
-        print(data)
         name = data.get("name")
         email = data.get("email")
         #rating = data.get("rating")
@@ -68,62 +64,41 @@ def feedback():
 
 def get_image_filter_data(chart_type, second_chart_type, pdf, year):
     print("Inside Function get_image_filter_data")
-    print("----get_image_filter_data-----", chart_type, second_chart_type, pdf, year)
     ALL = "all"
     where_sql = ""
-    print("---------", ALL)
-    """if chart_type.upper() not in [ALL.upper()]:
-        where_sql+=" image_index.chart_type in('"+chart_type+"')"
-    else:
-        where_sql+=" image_index.chart_type in('Scatter Plot','Box and Whiskers','Connected Scatter Plot','Bar Graph','Area Chart')" """
 
     if chart_type != 'All':
-        print("------------11------------")
         where_sql+=" image_index.chart_type in('"+chart_type+"')"
     else:
-        print("------------12------------")
         where_sql+=""
     
     if second_chart_type!= 'All' and where_sql:
-        print("------------21------------")
         where_sql+=" and image_index.secondary_chart_type in('"+second_chart_type+"')"
     elif second_chart_type == 'All' and where_sql:
-        print("------------22------------")
         where_sql == where_sql
     elif second_chart_type!= 'All' and not where_sql:
-        print("------------23------------")
         where_sql+=" image_index.secondary_chart_type in('"+second_chart_type+"')"
     else:
-        print("------------24------------")
         where_sql+=""
     
     if str(pdf) != "All" and where_sql:
-        print("------------31------------")
         where_sql+=" and image_index.source_pdf in('"+pdf+"')"
     elif str(pdf) == "All" and where_sql:
-        print("------------32------------")
         where_sql == where_sql
     elif str(pdf) != "All" and not where_sql:
-        print("------------33------------")
         where_sql+=" image_index.source_pdf in('"+pdf+"')"
     else:
-        print("------------34------------")
         where_sql+=""
     
     if str(year)!= "all" and where_sql:
-        print("------------41------------")
         where_sql+=" and image_index.year in('"+year+"')"
     elif str(year)== "all" and where_sql:
-        print("------------42------------")
         where_sql == where_sql
     elif str(year)!= "all" and not where_sql:
-        print("------------43------------")
         where_sql+= " image_index.year in('"+year+"')"
     else:
-        print("------------44------------")
         where_sql+=""
         
-    print("---------", where_sql)
     data = get_psql_data(where_sql)
     response = list()
     for row in data:
@@ -141,12 +116,10 @@ def get_psql_data(where_sql):
     try:
         connection  = threaded_postgreSQL_pool.getconn()
         cursor = connection.cursor()
-        print("========", where_sql)
         if where_sql:
             sql = "select * from image_index where "+where_sql+";"
         else:
             sql = "select * from image_index;"
-        print(sql)
         cursor.execute(sql)
         data = cursor.fetchall()
         cursor.close()
@@ -164,8 +137,6 @@ def get_psql_data(where_sql):
 def export():
     if request.method == 'POST':
         data = request.form
-        #print("========",data)
-        #print("===========================")
         global threaded_postgreSQL_pool
         if(threaded_postgreSQL_pool is None):
             create_connectionpool()
@@ -176,7 +147,6 @@ def export():
             sql = "SELECT * FROM image_index"
             cursor.execute(sql)
             result = cursor.fetchall()
-            #print("===========",result,os.getcwd())
             res_columns = ['Source PDF' ,'Year' ,'Chart Type' ,'Secondary Chart Type' ,'Description', 'Caption']
             workbook = xlsxwriter.Workbook(filename) 
             worksheet = workbook.add_worksheet()
@@ -194,9 +164,7 @@ def export():
                 column += 1
 
             column = 0
-            #print("===========",len(result))
             for item in result:
-                #print ("result-----")
                 worksheet.write(row, column, item[1])
                 worksheet.write(row, column+1, item[2])
                 worksheet.write(row, column+2, item[3])
