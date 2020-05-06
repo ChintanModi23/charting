@@ -25,8 +25,8 @@ def main():
     try:
         connection  = threaded_postgreSQL_pool.getconn()
         cursor = connection.cursor()
-        sql = """INSERT INTO image_index(image_key, source_pdf, year, chart_type, secondary_chart_type, description, caption, image_url, pdf_link) VALUES %s"""
-        template='(%(image_key)s, %(source_pdf)s, %(year)s, %(chart_type)s, %(secondary_chart_type)s, %(description)s, %(caption)s, %(image_url)s, %(pdf_link)s)'
+        sql = """INSERT INTO image_index(image_key, chart_type, description, caption, prediction) VALUES %s"""
+        template='(%(image_key)s, %(chart_type)s, %(description)s, %(caption)s, %(prediction)s)'
         psycopg2.extras.execute_values(cursor, sql, images, template=template)
         connection.commit()
         cursor.close()
@@ -63,21 +63,22 @@ def create_connectionpool():
 def build_data(image_data):
     table_data = {}
     table_data['image_key'] = image_data[0]
-    table_data['source_pdf'] = image_data[1]
-    table_data['year'] = image_data[2]
-    table_data['chart_type'] = image_data[3]
-    table_data['secondary_chart_type'] = image_data[4]
-    table_data['description'] = image_data[5]
-    table_data['caption'] = image_data[6]
-    table_data['image_url'] = image_data[7]
-    table_data['pdf_link'] = image_data[8]
+    #table_data['source_pdf'] = image_data[1]
+    #table_data['year'] = image_data[2]
+    table_data['chart_type'] = image_data[1]
+    #table_data['secondary_chart_type'] = image_data[4]
+    table_data['description'] = image_data[2]
+    table_data['caption'] = image_data[3]
+    #table_data['image_url'] = image_data[7]
+    #table_data['pdf_link'] = image_data[8]
+    table_data['prediction'] = image_data[5]
     return table_data
 
 def create_table():
     connection  = threaded_postgreSQL_pool.getconn()
     cursor = connection.cursor()
     table_name = "image_index"
-    sql_create_index_table = "CREATE TABLE IF NOT EXISTS "+table_name+" (image_key INT PRIMARY KEY, source_pdf TEXT, year INT, chart_type TEXT, secondary_chart_type TEXT, description TEXT, caption TEXT, image_url TEXT, pdf_link TEXT);"
+    sql_create_index_table = "CREATE TABLE IF NOT EXISTS "+table_name+" (image_key INT PRIMARY KEY, chart_type TEXT, description TEXT, caption TEXT, prediction TEXT);"
     cursor.execute(sql_create_index_table)
     sql_create_feedback_table = "CREATE TABLE IF NOT EXISTS feedback (feedback_key SERIAL PRIMARY KEY, name TEXT, email TEXT, linkert1 TEXT, linkert2 TEXT, linkert3 TEXT, linkert4 TEXT, feedback TEXT, image_key INT, occupation TEXT);"
     cursor.execute(sql_create_feedback_table)

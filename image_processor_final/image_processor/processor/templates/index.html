@@ -28,7 +28,7 @@
                             <div class="box-body">
                                 <form class="cotact-form" id="myform" enctype="multipart/form-data">
                                     <div class="row">
-                                        <div class="col-md-2">
+                                        <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Chart Type:</label>
                                                 <select id = "chartType" class="form-control">
@@ -59,7 +59,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-2">
+                                        <!--div class="col-md-2">
                                             <div class="form-group">
                                                 <label>Secondary Chart Type:</label>
                                                 <select id = "secondChartType" class="form-control">
@@ -89,8 +89,8 @@
                                                     <option value="wedgeStackGraph">Wedge Stack Graph</option>
                                                 </select>
                                             </div>
-                                        </div>
-                                        <div class="col-md-2">
+                                        </div-->
+                                        <!--div class="col-md-2">
                                             <div class="form-group">
                                                 <label>Year:</label>
                                                 <select id="Year" class="form-control">
@@ -102,11 +102,11 @@
                                                     <option value="2018">2018</option>
                                                 </select>
                                             </div>
-                                        </div>
+                                        </div-->
                                     <!--/div-->
                     
                                     <!--div class="row"-->
-                                        <div class="col-md-6">
+                                        <!--div class="col-md-6">
                                             <div class="form-group">
                                                 <label>PDF Source:</label>
                                                 <select id="PDF" class="form-control">
@@ -128,9 +128,9 @@
                                                 </select>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div-->
                                     <div class="box-footer">
-                                        <button id="filter" type="button" class="btn btn-primary">Filter</button>
+                                        <button id="filter" type="button" class="btn btn-primary" style="width: 100%;">Filter</button>
                                     </div>
                                     
                                         
@@ -171,10 +171,11 @@
                 $.ajax({
                     url:"{{ url_for('home') }}",
                     data: {
-                        chartType:$('#chartType option:selected').text(),
-                        secondChartType:$('#secondChartType option:selected').text(),
-                        PDF:$('#PDF option:selected').text(),
-                        Year:$('#Year').val()},
+                        chartType:$('#chartType option:selected').text()
+                        //secondChartType:$('#secondChartType option:selected').text(),
+                        //PDF:$('#PDF option:selected').text(),
+                        //Year:$('#Year').val()
+                        },
                     type:'POST',
                     sync: true,
                     success: function(response) {
@@ -209,6 +210,7 @@
            $("#modal-img").attr("src",data[1]);
            $("#chart-info").text(data[2]);
            $("#img-id").val(data[0]);
+           $("#prediction").text(data[4])
            $('#form-submit').bind('click', function () {
                 $.ajax({
                     url:"{{ url_for('home') }}"+"feedback",
@@ -248,7 +250,13 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6"><img id="modal-img" src="" class="modal-img" height="250" width="300"/></div>
-                    <div class="col-md-6"><p class="chart-info" id="chart-info"></p></div>
+                    <div class="col-md-6">
+                        <p class="chart-info" id="chart-info"></p> 
+                        <p><b class="chart-info">
+                            <span >Deep Learning Model Prediction is :</span>
+                            <span id="prediction" style="color:red"> </span>
+                        </b></p>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
@@ -262,14 +270,14 @@
                                 <input type="text" class="form-control" name="email" id="email" placeholder="Please enter email">
                             </div>
 			    <div class="form-group">
-                                <label>Occupation</label>
-				<select id="occupation" name="occupation" class="form-control">
-                                                    <option value="Student">Student</option>
-                                                    <option value="Scientist">Scientist</option>
-                                                    <option value="Mathematician">Mathematician</option>
-                                                    <option value="Other">Other</option>
-                                </select>
-                            </div>
+                    <label>Occupation</label>
+    				<select id="occupation" name="occupation" class="form-control">
+                                                        <option value="Student">Student</option>
+                                                        <option value="Scientist">Scientist</option>
+                                                        <option value="Mathematician">Mathematician</option>
+                                                        <option value="Other">Other</option>
+                    </select>
+                </div>
                             <input type="hidden" id="img-id" name="img-id" /> 
                             <!--div class="form-group">
                                 <label>How much easy the graph is to understand?</label>

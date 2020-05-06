@@ -15,14 +15,14 @@ def home():
     if request.method == 'POST':
         data = request.form
         chart_type = data.get("chartType")
-        second_chart_type = data.get("secondChartType")
-        pdf = data.get("PDF")
-        year = data.get("Year")
+        #second_chart_type = data.get("secondChartType")
+        #pdf = data.get("PDF")
+        #year = data.get("Year")
         filter_images = get_image_filter_data(
-            chart_type=chart_type,
-            second_chart_type=second_chart_type,
-            pdf=pdf,
-            year=year
+            chart_type=chart_type
+            #second_chart_type=second_chart_type,
+            #pdf=pdf,
+            #year=year
         )
         return json.dumps(filter_images)
         # return render_template('index.html', filter_images=filter_images)
@@ -62,7 +62,7 @@ def feedback():
                 threaded_postgreSQL_pool.putconn(connection)
         return json.dumps({"message":"Successfully saved feedback"})
 
-def get_image_filter_data(chart_type, second_chart_type, pdf, year):
+def get_image_filter_data(chart_type):
     print("Inside Function get_image_filter_data")
     ALL = "all"
     where_sql = ""
@@ -72,7 +72,7 @@ def get_image_filter_data(chart_type, second_chart_type, pdf, year):
     else:
         where_sql+=""
     
-    if second_chart_type!= 'All' and where_sql:
+    """if second_chart_type!= 'All' and where_sql:
         where_sql+=" and image_index.secondary_chart_type in('"+second_chart_type+"')"
     elif second_chart_type == 'All' and where_sql:
         where_sql == where_sql
@@ -97,7 +97,7 @@ def get_image_filter_data(chart_type, second_chart_type, pdf, year):
     elif str(year)!= "all" and not where_sql:
         where_sql+= " image_index.year in('"+year+"')"
     else:
-        where_sql+=""
+        where_sql+="" """
         
     data = get_psql_data(where_sql)
     response = list()
@@ -106,7 +106,7 @@ def get_image_filter_data(chart_type, second_chart_type, pdf, year):
         current_file_path = os.path.dirname(__file__)
         verify_img_path = os.path.join(current_file_path, ".." + img_path)
         if os.path.isfile(verify_img_path):
-            response.append([row[0], img_path, row[5], row[6]])
+            response.append([row[0], img_path, row[2], row[3], row[4]])
     return response
 
 def get_psql_data(where_sql):
@@ -147,12 +147,12 @@ def export():
             sql = "SELECT * FROM image_index"
             cursor.execute(sql)
             result = cursor.fetchall()
-            res_columns = ['Source PDF' ,'Year' ,'Chart Type' ,'Secondary Chart Type' ,'Description', 'Caption']
+            res_columns = ['Image ID' , 'Chart Type', 'Description', 'Caption', 'Prediction']
             workbook = xlsxwriter.Workbook(filename) 
             worksheet = workbook.add_worksheet()
-            worksheet.set_column(0, 0, 30)
-            worksheet.set_column(2, 3, 15)
-            worksheet.set_column(4, 5, 70)
+            worksheet.set_column(0, 0, 5)
+            worksheet.set_column(1, 1, 15)
+            worksheet.set_column(2, 3, 70)
             cell_format = workbook.add_format({'bold': True, 'font_color': 'black'})
   
             # Start from the first cell. 
@@ -165,12 +165,11 @@ def export():
 
             column = 0
             for item in result:
-                worksheet.write(row, column, item[1])
-                worksheet.write(row, column+1, item[2])
-                worksheet.write(row, column+2, item[3])
-                worksheet.write(row, column+3, item[4])
-                worksheet.write(row, column+4, item[5])
-                worksheet.write(row, column+5, item[6])
+                worksheet.write(row, column, item[0])
+                worksheet.write(row, column+1, item[1])
+                worksheet.write(row, column+2, item[2])
+                worksheet.write(row, column+3, item[3])
+                worksheet.write(row, column+4, item[4])
                 row +=1
             workbook.close()
             cursor.close()

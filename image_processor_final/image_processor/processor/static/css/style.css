@@ -17,6 +17,7 @@
 
 .chart-info {
     margin-left: 15px;
+    display: inline-block;
 }
 
 html,body {padding:0;margin:0;}
