@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <title>Charting- Chart Upload Feature</title>
+ 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+ 
+    <link href="//getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/upload.css') }}">
+    <script src="../static/js/jquery-3.5.1.min.js"></script>
+    <script src="../static/js/jquery.ui.widget.js"></script>
+  
+    <script type="text/javascript" src="../static/js/jquery.fileupload.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.fileupload-process.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.fileupload-ui.js"></script>
+ 
+</head>
+ 
+<body>
+ 
+    <div class="container">
+        <div class="header">
+            <nav>
+                
+            </nav>
+            <!--img src="/static/images/Flask_Icon.png" alt="Flask_Icon.png"/ -->
+        </div>
+ 
+        <form role="form" method="post" action="/upload" enctype="multipart/form-data">
+ 
+            <!-- Form Name -->
+            <legend>Upload Chart</legend>
+ 
+            <!-- Text input-->
+            <div class="form-group">
+                <label for="txtTitle">Chart Title</label>
+ 
+                <input id="txtTitle" name="inputTitle" type="text" placeholder="placeholder" class="form-control input-md">
+ 
+            </div>
+ 
+            <!-- Textarea -->
+            <div class="form-group">
+                <label for="txtPost">Chart Description</label>
+ 
+                <textarea class="form-control" id="txtPost" name="inputDescription"></textarea>
+ 
+            </div>
+ 
+            <div class="form-group">
+                <label for="txtPost">Chart</label>
+ 
+                <div class="input-group">
+                    <span class="input-group-btn">
+                    <span class="btn btn-primary btn-file">
+                        Browse… <input type="file" id="fileupload" name="file" multiple>
+                    </span>
+                    </span>
+                    <input type="text" class="form-control" readonly>
+                </div>
+            </div>
+            <div class="pull-right">
+                        <img id="imgUpload" style="width: 140px; height: 140px;" class="img-thumbnail"><input type="hidden" name="filePath" id="filePath"></input>
+            </div>
+
+            <!-- Button -->
+            <div class="form-group">
+ 
+                <p class="text-center">
+                    <input id="singlebutton" name="singlebutton" class="btn btn-primary" type="submit" value="Publish" />
+                </p>
+            </div>
+ 
+        </form>
+ 
+        <footer class="footer">
+            <p></p>
+        </footer>
+ 
+    </div>
+</body>
+ 
+</html>
+
+<!--script type="text/javascript">
+    $(function() {
+    $('#fileupload').fileupload({
+        url: 'upload',
+        dataType: 'json',
+        add: function(e, data) {
+            data.submit();
+        },
+        success: function(response, status) {
+            console.log(response);
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
+})
+</script-->
+
+<script>
+  $(function(){
+        $('#fileupload').fileupload({
+            url: 'upload',
+            dataType: 'json',
+            add: function (e, data) {
+              data.submit();
+            },
+            success:function(response,status) {
+              console.log("========ZZZZZZZZZZ===========");
+              console.log(response.filename);
+              var filePath = 'processor/static/data/ImageList/' + response.filename;
+              console.log('=====aaaaaa=====',filePath);
+              $('#imgUpload').attr('src',filePath);
+              $('#filePath').val(filePath);
+              console.log('success');
+            },
+            error:function(error){
+                    console.log(error);
+            }
+        });
+  })
+</script>

@@ -7,6 +7,8 @@ from psycopg2 import pool
 import flask_excel as excel
 import xlsxwriter
 from flask import send_from_directory
+import uuid
+from werkzeug.utils import secure_filename
 
 threaded_postgreSQL_pool = None
 
@@ -183,6 +185,19 @@ def export():
             if(threaded_postgreSQL_pool):
                 threaded_postgreSQL_pool.putconn(connection)
     return render_template('export.html')
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    if request.method == 'POST':
+        file = request.files['file']
+        print("=========filename=========",file)
+        extension = os.path.splitext(file.filename)[1]
+        #f_name = str(uuid.uuid4()) + extension
+        f_name = '2300' + extension
+        print("========f_name=========",f_name, extension)
+        file.save(os.path.join('processor/static/data/ImageList', f_name))
+        return json.dumps({'filename':f_name})
+    return render_template('upload.html')
 
 def create_connectionpool():
     print("Creating connectionpool")
