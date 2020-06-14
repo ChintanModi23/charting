@@ -9,8 +9,23 @@ import xlsxwriter
 from flask import send_from_directory
 import uuid
 from werkzeug.utils import secure_filename
+from flask import Flask, jsonify
+import tensorflow as tf
+import numpy as np
+from tensorflow.keras import backend
+from tensorflow.keras.models import load_model
+from keras.applications.resnet50 import ResNet50, preprocess_input
+from keras.preprocessing.image import ImageDataGenerator, image
+from PIL import Image
+from keras.preprocessing.image import load_img
+#from keras.models import load_model
+
 
 threaded_postgreSQL_pool = None
+
+@app.before_first_request
+def load_model_to_app():
+    app.predictor = load_model('processor/static/model/model.h5')
 
 @app.route('/', methods=['get', 'post'])
 def home():
@@ -188,6 +203,7 @@ def export():
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
+    datagen = ImageDataGenerator(preprocessing_function=preprocess_input)
     if request.method == 'POST':
         file = request.files['file']
         print("=========filename=========",file)
@@ -195,9 +211,39 @@ def upload():
         #f_name = str(uuid.uuid4()) + extension
         f_name = '2300' + extension
         print("========f_name=========",f_name, extension)
-        file.save(os.path.join('processor/static/data/ImageList', f_name))
-        return json.dumps({'filename':f_name})
-    return render_template('upload.html')
+        file_path = os.path.join('processor/static/data/uploads/easy', f_name)
+        file.save(file_path)
+        print("========file_path=========",file_path )
+        test_path = 'processor/static/data/uploads/'
+        #image = load_img(file_path + '.png', target_size=(224,224))
+        #image = np.resize(image, (224, 224, 3))
+        #input_arr = tf.keras.preprocessing.image.img_to_array(image)
+        #print("=======input_arr1=======",input_arr.shape)
+        #input_arr = input_arr.reshape(1, 224, 224, 3)
+        #input_arr = np.array([input_arr])  # Convert single image to a batch
+        #print("=======input_arr2=======",input_arr.shape)
+        #datagen.fit(input_arr)
+        #x_train = datagen.flow(input_arr, batch_size=32)
+        #input_arr = input_arr.astype('float32')
+        #print("=======input_arr3=======",input_arr)
+        test_generator = datagen.flow_from_directory(
+        test_path, batch_size=32, class_mode='categorical')
+        #predicted = model.predict_generator(test_generator)
+        predictions = app.predictor.predict_generator(test_generator)
+        #print('===========Predictions=========',predictions)
+        #print('INFO Predictions: {}'.format(predictions))
+        print("=======shape=======",predictions.shape)
+        np.set_printoptions(threshold=np.inf)
+        #print("============len====",type(predictions),len(predictions))
+        #print("============predictions0000000000====",predictions)
+        class_ = np.argmax(predictions, axis=1)
+        #class_ = np.where(predictions == np.amax(predictions, axis=1))[1][0]
+        print("=======249===============",type(predictions[0]), predictions[0].shape, predictions[0][class_])
+        print("=========pred========",class_)
+        result = ""
+        return result
+    return render_template('upload.html', pred='Easy')
+
 
 def create_connectionpool():
     print("Creating connectionpool")
